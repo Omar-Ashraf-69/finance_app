@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:finanice_app/screens/splash_screen.dart';
 import 'package:flutter/services.dart';
 
-void main()  {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -18,6 +18,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
         useMaterial3: true,
       ),
       home: const SplashScreen(),
