@@ -1,4 +1,3 @@
-
 import 'package:finanice_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -40,12 +39,14 @@ class MoneyBannerWidget extends StatelessWidget {
                       totaleBalance,
                       style: const TextStyle(
                         fontSize: 24,
+                        color: Colors.white,
                       ),
                     ),
                     Text(
                       todayBalance,
                       style: const TextStyle(
                         fontSize: 33,
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     )

@@ -1,5 +1,6 @@
 import 'package:finanice_app/colors/colors.dart';
 import 'package:finanice_app/screens/adding_finance_screen.dart';
+import 'package:finanice_app/screens/see_all_screen.dart';
 import 'package:finanice_app/widgets/activity_widget.dart';
 import 'package:finanice_app/widgets/money_banner_widget.dart';
 import 'package:finanice_app/widgets/plus_minus_button_widget.dart';
@@ -108,7 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const Spacer(),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SeeAllScreen(),
+                            ));
+                      },
                       child: const Text(
                         "See All",
                         style: TextStyle(
