@@ -1,8 +1,12 @@
 import 'package:finanice_app/colors/colors.dart';
+import 'package:finanice_app/widgets/adding_details_container_widget.dart';
+import 'package:finanice_app/widgets/done_cancel_button_widget.dart';
+import 'package:finanice_app/widgets/numbers_contanier.dart';
 import 'package:flutter/material.dart';
 
 class AddingFinanceScreen extends StatefulWidget {
-  const AddingFinanceScreen({super.key});
+  const AddingFinanceScreen({super.key, required this.isPlus});
+  final bool isPlus;
 
   @override
   State<AddingFinanceScreen> createState() => _AddingFinanceScreenState();
@@ -31,8 +35,8 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text(
-          "Plus",
+        title: Text(
+          widget.isPlus ? "Plus" : 'Minus',
         ),
       ),
       body: Padding(
@@ -56,22 +60,28 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
               height: 20,
             ),
             AddingDetailsContainerWidget(
-              color: kSeconderyGreenColor,
+              color: widget.isPlus ? kSeconderyGreenColor : kSeconderyRedColor,
               widget: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.add,
-                    color: kPrimaryGreenColor,
-                  ),
+                  widget.isPlus
+                      ? const Icon(
+                          Icons.add,
+                          color: kPrimaryGreenColor,
+                        )
+                      : const Icon(
+                          Icons.remove,
+                          color: kPrimaryRedColor,
+                        ),
                   const SizedBox(
                     width: 3,
                   ),
                   Text(
                     value.isEmpty ? '0.0' : value.toString(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
-                      color: kPrimaryGreenColor,
+                      color:
+                          widget.isPlus ? kPrimaryGreenColor : kPrimaryRedColor,
                     ),
                   ),
                 ],
@@ -95,23 +105,7 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                 ),
                 reverse: true,
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    if (numbersGridItem[index] == '<' && value.isNotEmpty) {
-                      value = value.substring(0, value.length - 1);
-                      setState(() {});
-                    } else {
-                      if (numbersGridItem[index] == '.' &&
-                          value.contains('.')) {
-                        value = value;
-                        setState(() {});
-                      } else {
-                        if (numbersGridItem[index] != '<') {
-                          value = value + numbersGridItem[index];
-                        }
-                        setState(() {});
-                      }
-                    }
-                  },
+                  onTap: () => updateValue(numbersGridItem[index]),
                   child: NumbersContanier(number: numbersGridItem[index]),
                 ),
               ),
@@ -126,7 +120,7 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                   value: value,
                   onTap: () {
                     if (value.isNotEmpty) {
-                      //to add to the database. and then pop 
+                      //to add to the database. and then pop
                     }
                   },
                 ),
@@ -146,94 +140,16 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
       ),
     );
   }
-}
 
-class DoneAndCancelButtonWidget extends StatelessWidget {
-  const DoneAndCancelButtonWidget({
-    super.key,
-    required this.textColor,
-    required this.backgroundColor,
-    required this.label,
-    this.value = '',
-    this.onTap,
-  });
-  final Color textColor;
-  final Color backgroundColor;
-  final String label;
-  final String value;
-  final void Function()? onTap;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AddingDetailsContainerWidget(
-          color: backgroundColor,
-          widget: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: textColor,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class NumbersContanier extends StatelessWidget {
-  const NumbersContanier({
-    super.key,
-    required this.number,
-  });
-  final String number;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: kBlackColor,
-      ),
-      child: Center(
-        child: Text(
-          number,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class AddingDetailsContainerWidget extends StatelessWidget {
-  const AddingDetailsContainerWidget({
-    super.key,
-    required this.color,
-    required this.widget,
-  });
-  final Color color;
-  final Widget widget;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 35,
-        vertical: 16,
-      ),
-      child: widget,
-    );
+  void updateValue(String item) {
+    setState(() {
+      if (item == '<' && value.isNotEmpty) {
+        value = value.substring(0, value.length - 1);
+      } else if (item == '.' && value.contains('.')) {
+        // Do nothing
+      } else if (item != '<') {
+        value += item;
+      }
+    });
   }
 }

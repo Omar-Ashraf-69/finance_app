@@ -1,4 +1,3 @@
-import 'package:finanice_app/screens/adding_finance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:finanice_app/screens/splash_screen.dart';
 import 'package:flutter/services.dart';

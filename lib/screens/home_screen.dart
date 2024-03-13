@@ -68,7 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AddingFinanceScreen(),
+                              builder: (context) => const AddingFinanceScreen(
+                                isPlus: true,
+                              ),
                             ));
                       }),
                   const SizedBox(
@@ -79,8 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'Minus',
                     icon: Icons.remove,
                     iconColor: kPrimaryRedColor,
-                    onTap: (){
-
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddingFinanceScreen(
+                              isPlus: false,
+                            ),
+                          ));
                     },
                   ),
                 ],
