@@ -1,4 +1,5 @@
 import 'package:finanice_app/colors/colors.dart';
+import 'package:finanice_app/screens/adding_finance_screen.dart';
 import 'package:finanice_app/widgets/activity_widget.dart';
 import 'package:finanice_app/widgets/money_banner_widget.dart';
 import 'package:finanice_app/widgets/plus_minus_button_widget.dart';
@@ -54,17 +55,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 bottomLeft: Radius.circular(12),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
               child: Row(
                 children: [
                   PlusAndMinsButtonWidget(
-                    color: kSeconderyGreenColor,
-                    label: 'Plus',
-                    icon: Icons.add,
-                    iconColor: kPrimaryGreenColor,
-                  ),
-                  SizedBox(
+                      color: kSeconderyGreenColor,
+                      label: 'Plus',
+                      icon: Icons.add,
+                      iconColor: kPrimaryGreenColor,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddingFinanceScreen(),
+                            ));
+                      }),
+                  const SizedBox(
                     width: 20,
                   ),
                   PlusAndMinsButtonWidget(
@@ -72,6 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'Minus',
                     icon: Icons.remove,
                     iconColor: kPrimaryRedColor,
+                    onTap: (){
+
+                    },
                   ),
                 ],
               ),

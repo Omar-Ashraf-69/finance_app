@@ -1,3 +1,4 @@
+import 'package:finanice_app/screens/adding_finance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:finanice_app/screens/splash_screen.dart';
 import 'package:flutter/services.dart';
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.white),
           bodyMedium: TextStyle(color: Colors.white),
         ),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 }

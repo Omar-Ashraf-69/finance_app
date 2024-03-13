@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class PlusAndMinsButtonWidget extends StatelessWidget {
@@ -8,17 +7,18 @@ class PlusAndMinsButtonWidget extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.iconColor,
+    required this.onTap,
   });
   final Color color;
   final Color iconColor;
   final IconData icon;
   final String label;
-
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             color: color,
