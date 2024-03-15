@@ -1,9 +1,16 @@
+import 'package:finanice_app/cons.dart';
+import 'package:finanice_app/models/finance_model.dart';
 import 'package:flutter/material.dart';
 import 'package:finanice_app/screens/splash_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(FinanceModelAdapter());
+  await Hive.openBox(kFinanceBox);
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
