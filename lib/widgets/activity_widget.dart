@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ActivityWidget extends StatelessWidget {
@@ -7,40 +6,57 @@ class ActivityWidget extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.trail,
-    required this.color,
+    required this.color, this.onDismissed,
   });
   final String title;
   final String subTitle;
   final String trail;
   final Color color;
+  final void Function(DismissDirection)? onDismissed;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        Icons.circle,
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        padding: const EdgeInsets.only(left: 20),
         color: color,
-        size: 50,
+        child: const Align(
+            alignment: Alignment.centerLeft, child: Icon(Icons.edit)),
       ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
+      secondaryBackground: Container(
+        padding: const EdgeInsets.only(right: 20),
+        color: Colors.red,
+        child: const Align(
+            alignment: Alignment.centerRight, child: Icon(Icons.delete)),
+      ),
+      onDismissed: onDismissed ,
+      
+      child: ListTile(
+        leading: Icon(
+          Icons.circle,
+          color: color,
+          size: 50,
         ),
-      ),
-      subtitle: Text(
-        subTitle,
-        style: const TextStyle(
-          fontSize: 14,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      ),
-      trailing: Text(
-        trail,
-        style: const TextStyle(
-          fontSize: 17,
+        subtitle: Text(
+          subTitle,
+          style: const TextStyle(
+            fontSize: 14,
+          ),
+        ),
+        trailing: Text(
+          trail,
+          style: const TextStyle(
+            fontSize: 17,
+          ),
         ),
       ),
     );
   }
 }
-

@@ -8,6 +8,7 @@ import 'package:finanice_app/widgets/money_banner_widget.dart';
 import 'package:finanice_app/widgets/plus_minus_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,7 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   todayBalance: BlocProvider.of<FetchingDataCubit>(context)
                       .totalBalance
                       .toString(),
-                  color: kSeconderyPurbleColor,
+                  color:
+                      BlocProvider.of<FetchingDataCubit>(context).todayBalance >
+                              0
+                          ? kSeconderyPurbleColor
+                          : kSeconderyBlueColor,
                   borderRadiusOuterContanier: const BorderRadius.only(
                     topRight: Radius.circular(12),
                   ),
@@ -53,14 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     topLeft: Radius.circular(12),
                   ),
                 ),
-                const MoneyBannerWidget(
+                MoneyBannerWidget(
                   totaleBalance: 'Today',
-                  todayBalance: '0.00',
-                  color: kSeconderyRedColor,
-                  borderRadiusOuterContanier: BorderRadius.only(
+                  todayBalance: BlocProvider.of<FetchingDataCubit>(context)
+                      .todayBalance
+                      .toString(),
+                  color:
+                      BlocProvider.of<FetchingDataCubit>(context).todayBalance >
+                              0
+                          ? kSeconderyGreenColor
+                          : kSeconderyRedColor,
+                  borderRadiusOuterContanier: const BorderRadius.only(
                     bottomRight: Radius.circular(12),
                   ),
-                  borderRadiusInsiderContanier: BorderRadius.only(
+                  borderRadiusInsiderContanier: const BorderRadius.only(
                     bottomLeft: Radius.circular(12),
                   ),
                 ),
@@ -139,27 +150,86 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: BlocProvider.of<FetchingDataCubit>(context)
-                        .financeList
+                        .todayFinanceList
                         .length,
                     itemBuilder: (context, index) => ActivityWidget(
-                      title: BlocProvider.of<FetchingDataCubit>(context)
-                          .financeList[index]
-                          .transactionDetails,
-                      subTitle: BlocProvider.of<FetchingDataCubit>(context)
-                          .financeList[index]
-                          .date
-                          .toString(),
-                      color: BlocProvider.of<FetchingDataCubit>(context)
-                                  .financeList[index]
-                                  .balance >
-                              0
-                          ? kSeconderyGreenColor
-                          : kSeconderyRedColor,
-                      trail: BlocProvider.of<FetchingDataCubit>(context)
-                          .financeList[index]
-                          .balance
-                          .toString(),
-                    ),
+                        title: BlocProvider.of<FetchingDataCubit>(context)
+                            .todayFinanceList[index]
+                            .transactionDetails,
+                        subTitle: DateFormat.yMMMEd().format(
+                            BlocProvider.of<FetchingDataCubit>(context)
+                                .todayFinanceList[index]
+                                .date),
+                        color: BlocProvider.of<FetchingDataCubit>(context)
+                                    .todayFinanceList[index]
+                                    .balance >
+                                0
+                            ? kSeconderyGreenColor
+                            : kSeconderyRedColor,
+                        trail: BlocProvider.of<FetchingDataCubit>(context)
+                            .todayFinanceList[index]
+                            .balance
+                            .toString(),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.endToStart) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: const Text(
+                                        "Are you sure you want to delete "),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          BlocProvider.of<FetchingDataCubit>(
+                                                  context)
+                                              .todayFinanceList[index]
+                                              .delete();
+                                          BlocProvider.of<FetchingDataCubit>(
+                                                  context)
+                                              .fetchingData();
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          "Cancel",
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        onPressed: () {
+                                          BlocProvider.of<FetchingDataCubit>(
+                                                  context)
+                                              .fetchingData();
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddingFinanceScreen(
+                                    isPlus: BlocProvider.of<FetchingDataCubit>(
+                                                    context)
+                                                .todayFinanceList[index]
+                                                .balance >
+                                            0
+                                        ? true
+                                        : false,
+                                    financeModel:
+                                        BlocProvider.of<FetchingDataCubit>(
+                                                context)
+                                            .todayFinanceList[index],
+                                  ),
+                                ));
+                          }
+                        }),
                   ),
                 ),
               ],

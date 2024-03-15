@@ -10,9 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddingFinanceScreen extends StatefulWidget {
-  const AddingFinanceScreen({super.key, required this.isPlus});
+  const AddingFinanceScreen(
+      {super.key, required this.isPlus, this.financeModel});
   final bool isPlus;
-
+  final FinanceModel? financeModel;
   @override
   State<AddingFinanceScreen> createState() => _AddingFinanceScreenState();
 }
@@ -59,8 +60,10 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                       child: TextField(
                         keyboardType: TextInputType.text,
                         controller: controller,
-                        decoration: const InputDecoration(
-                          hintText: 'Details here...',
+                        decoration: InputDecoration(
+                          hintText: widget.financeModel != null
+                              ? widget.financeModel!.transactionDetails
+                              : 'Details here...',
                           border: InputBorder.none,
                         ),
                       ),
@@ -89,7 +92,13 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                           width: 3,
                         ),
                         Text(
-                          value.isEmpty ? '0.0' : value.toString(),
+                          value.isEmpty
+                              ? widget.financeModel != null
+                                  ? widget.financeModel!.balance
+                                      .toString()
+                                      .substring(1)
+                                  : '0.0'
+                              : value.toString(),
                           style: TextStyle(
                             fontSize: 24,
                             color: widget.isPlus
@@ -127,29 +136,51 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                   const Spacer(),
                   Row(
                     children: [
-                      DoneAndCancelButtonWidget(
-                        label: "Done",
-                        textColor: kPrimaryBlueColor,
-                        backgroundColor: kSeconderyBlueColor,
-                        value: value,
-                        onTap: () async {
-                          if (value.isNotEmpty) {
-                            await BlocProvider.of<AddFinanceDataCubit>(context)
-                                .addFinanceData(
-                              FinanceModel(
-                                balance: widget.isPlus
-                                    ? double.parse(value)
-                                    : double.parse(value) * -1,
-                                date: DateTime.now(),
-                                transactionDetails: controller.text,
-                              ),
-                            );
-                            BlocProvider.of<FetchingDataCubit>(context)
-                                .fetchingData();
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
+                      state is AddFinanceDataLoading
+                          ? const CircularProgressIndicator()
+                          : DoneAndCancelButtonWidget(
+                              label: "Done",
+                              textColor: kPrimaryBlueColor,
+                              backgroundColor: kSeconderyBlueColor,
+                              value: value,
+                              onTap: () async {
+                                if (value.isNotEmpty ||
+                                    widget.financeModel != null) {
+                                  if (widget.financeModel == null) {
+                                    await BlocProvider.of<AddFinanceDataCubit>(
+                                            context)
+                                        .addFinanceData(
+                                      FinanceModel(
+                                        balance: widget.isPlus
+                                            ? double.parse(value)
+                                            : double.parse(value) * -1,
+                                        date: DateTime.now(),
+                                        transactionDetails: controller.text,
+                                      ),
+                                    );
+                                  } else {
+                                    value.isNotEmpty
+                                        ? widget.financeModel!.balance =
+                                            widget.isPlus
+                                                ? double.parse(value)
+                                                : double.parse(value) * -1
+                                        : widget.financeModel!.balance =
+                                            widget.financeModel!.balance;
+                                    controller.text.isEmpty
+                                        ? widget.financeModel!
+                                                .transactionDetails =
+                                            widget.financeModel!
+                                                .transactionDetails
+                                        : widget.financeModel!
+                                                .transactionDetails =
+                                            controller.text;
+                                  }
+                                  BlocProvider.of<FetchingDataCubit>(context)
+                                      .fetchingData();
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
                       const SizedBox(
                         width: 10,
                       ),
