@@ -10,6 +10,7 @@ class AddFinanceDataCubit extends Cubit<AddFinanceDataState> {
     emit(AddFinanceDataLoading());
     try {
       await Hive.box<FinanceModel>(kFinanceBox).add(financeModel);
+      
       emit(AddFinanceDataSuccess());
     } catch (e) {
       emit(AddFinanceDataError(error: e.toString()));

@@ -1,3 +1,4 @@
+import 'package:finanice_app/bloc_ovserver.dart';
 import 'package:finanice_app/cons.dart';
 import 'package:finanice_app/cubits/fetching_data/fetching_data_cubit_cubit.dart';
 import 'package:finanice_app/models/finance_model.dart';
@@ -11,7 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(FinanceModelAdapter());
-  await Hive.openBox(kFinanceBox);
+  await Hive.openBox<FinanceModel>(kFinanceBox);
+  Bloc.observer = SimpleBlocObserver();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FetchingDataCubit(),
+      create: (context) => FetchingDataCubit()..fetchingData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

@@ -1,5 +1,3 @@
-
-
 import 'package:finanice_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +24,7 @@ class NumbersContanier extends StatelessWidget {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
         ),
       ),
