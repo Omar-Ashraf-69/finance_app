@@ -43,9 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 MoneyBannerWidget(
                   totaleBalance: 'My Balance',
-                  todayBalance: BlocProvider.of<FetchingDataCubit>(context)
-                      .totalBalance
-                      .toString(),
+                  todayBalance: NumberFormat.compactCurrency(
+                    symbol: '\$ ',
+                    decimalDigits: 3,
+                  ).format(
+                      BlocProvider.of<FetchingDataCubit>(context).totalBalance),
                   color:
                       BlocProvider.of<FetchingDataCubit>(context).todayBalance >
                               0
@@ -167,9 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? kSeconderyGreenColor
                             : kSeconderyRedColor,
                         trail: BlocProvider.of<FetchingDataCubit>(context)
-                            .todayFinanceList[index]
-                            .balance
-                            .toString(),
+                                    .todayFinanceList[index]
+                                    .balance >
+                                0
+                            ? "+ ${BlocProvider.of<FetchingDataCubit>(context).todayFinanceList[index].balance.toString()}"
+                            : BlocProvider.of<FetchingDataCubit>(context)
+                                .todayFinanceList[index]
+                                .balance
+                                .toString(),
                         onDismissed: (direction) {
                           if (direction == DismissDirection.endToStart) {
                             showDialog(

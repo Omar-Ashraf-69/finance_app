@@ -13,6 +13,7 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
   List<FinanceModel> todayFinanceList = [];
   double totalBalance = 0;
   double todayBalance = 0;
+  DateTime selectedDate = DateTime.now();
   void fetchingData() {
     emit(FetchingDataCubitLoading());
 
