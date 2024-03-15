@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FetchingDataCubit, FetchingDataCubitState>(
+    return BlocConsumer<FetchingDataCubit, FetchingDataState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(

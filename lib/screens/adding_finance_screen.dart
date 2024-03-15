@@ -35,6 +35,11 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
     '8',
     '9',
   ];
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
-abstract class FetchingDataCubitState {}
+abstract class FetchingDataState {}
 
-final class FetchingDataCubitInitial extends FetchingDataCubitState {}
+final class FetchingDataCubitInitial extends FetchingDataState {}
 
-final class FetchingDataCubitLoading extends FetchingDataCubitState {}
+final class FetchingDataCubitLoading extends FetchingDataState {}
 
-final class FetchingDataCubitSuccess extends FetchingDataCubitState {}
+final class FetchingDataCubitSuccess extends FetchingDataState {}
 
-final class FetchingDataCubitError extends FetchingDataCubitState {
+final class FetchingDataCubitError extends FetchingDataState {
   final String error;
 
   FetchingDataCubitError({required this.error});
