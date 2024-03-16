@@ -58,11 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     MoneyBannerWidget(
                       totaleBalance: 'My Balance',
-                      todayBalance: NumberFormat.compactCurrency(
-                        symbol: '\$ ',
-                        decimalDigits: 3,
-                      ).format(BlocProvider.of<FetchingDataCubit>(context)
-                          .totalBalance),
+                      todayBalance:
+                          "\$ ${BlocProvider.of<FetchingDataCubit>(context).totalBalance}",
                       color: BlocProvider.of<FetchingDataCubit>(context)
                                   .todayBalance >
                               0
@@ -77,9 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     MoneyBannerWidget(
                       totaleBalance: 'Today',
-                      todayBalance: BlocProvider.of<FetchingDataCubit>(context)
-                          .todayBalance
-                          .toString(),
+                      todayBalance:
+                          "\$ ${BlocProvider.of<FetchingDataCubit>(context).todayBalance}",
                       color: BlocProvider.of<FetchingDataCubit>(context)
                                   .todayBalance >
                               0
@@ -344,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: const Text(
                         "Exit",
                       ),
-                      trailing:const Icon(Icons.logout),
+                      trailing: const Icon(Icons.logout),
                       onTap: () => exit(0),
                     ),
                   ],

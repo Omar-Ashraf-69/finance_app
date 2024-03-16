@@ -65,11 +65,19 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                       child: TextField(
                         keyboardType: TextInputType.text,
                         controller: controller,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
                         decoration: InputDecoration(
                           hintText: widget.financeModel != null
                               ? widget.financeModel!.transactionDetails
                               : 'Details here...',
                           border: InputBorder.none,
+                          hintStyle: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

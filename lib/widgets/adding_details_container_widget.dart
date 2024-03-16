@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AddingDetailsContainerWidget extends StatelessWidget {
@@ -18,7 +17,7 @@ class AddingDetailsContainerWidget extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 35,
-        vertical: 16,
+        vertical: 12,
       ),
       child: widget,
     );

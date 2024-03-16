@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
                     var darkMode = box.get('darkMode', defaultValue: false);
 
             return MaterialApp(
+              title: "محفظتي",
               debugShowCheckedModeBanner: false,
               themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
           darkTheme: ThemeData.dark(
