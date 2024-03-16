@@ -157,7 +157,7 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                                         .addFinanceData(
                                       FinanceModel(
                                         balance: widget.isPlus
-                                            ? double.parse(value) 
+                                            ? double.parse(value)
                                             : double.parse(value) * -1,
                                         date: DateTime.now(),
                                         transactionDetails: controller.text,
@@ -183,7 +183,10 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                                   BlocProvider.of<FetchingDataCubit>(context)
                                       .fetchingData();
                                   BlocProvider.of<FetchingDataCubit>(context)
-                                      .fetchingDateData(BlocProvider.of<FetchingDataCubit>(context).selectedDate);
+                                      .fetchingDateData(
+                                          BlocProvider.of<FetchingDataCubit>(
+                                                  context)
+                                              .selectedDate);
                                   Navigator.pop(context);
                                 }
                               },

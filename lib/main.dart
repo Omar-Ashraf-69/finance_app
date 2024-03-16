@@ -13,6 +13,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(FinanceModelAdapter());
   await Hive.openBox<FinanceModel>(kFinanceBox);
+  await Hive.openBox(darkModeBox);
+
   Bloc.observer = SimpleBlocObserver();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -27,14 +29,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => FetchingDataCubit()..fetchingData(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const SplashScreen(),
-      ),
+      child: ValueListenableBuilder(
+          valueListenable: Hive.box(darkModeBox).listenable(),
+          builder: (context, box, child) {
+                    var darkMode = box.get('darkMode', defaultValue: false);
+
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+          darkTheme: ThemeData.dark(
+            useMaterial3: true,
+          ),
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              
+              home: const SplashScreen(),
+            );
+          },),
     );
   }
 }

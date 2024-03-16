@@ -11,6 +11,8 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
   FetchingDataCubit() : super(FetchingDataCubitInitial());
   List<FinanceModel> financeList = [];
   List<FinanceModel> todayFinanceList = [];
+  List<FinanceModel> dateFinanceList = [];
+
   double totalBalance = 0;
   double todayBalance = 0;
   DateTime selectedDate = DateTime.now();
@@ -28,7 +30,7 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
           .toList();
       financeList = financeList.reversed.toList();
       todayFinanceList = todayFinanceList.reversed.toList();
-
+      fetchingDateData(selectedDate);
       totalBalance = 0;
       todayBalance = 0;
       for (var ele in financeList) {
@@ -49,7 +51,7 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
     emit(FetchingDataCubitLoading());
 
     try {
-      todayFinanceList = Hive.box<FinanceModel>(kFinanceBox)
+      dateFinanceList = Hive.box<FinanceModel>(kFinanceBox)
           .values
           .toList()
           .where((element) =>
@@ -62,4 +64,5 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
       emit(FetchingDataCubitError(error: e.toString()));
     }
   }
+
 }
