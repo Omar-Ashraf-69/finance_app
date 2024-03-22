@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<FetchingDataCubit, FetchingDataState>(
       listener: (context, state) {},
@@ -161,100 +162,119 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: BlocProvider.of<FetchingDataCubit>(context)
-                            .dateFinanceList
-                            .length,
-                        itemBuilder: (context, index) => ActivityWidget(
-                            title: BlocProvider.of<FetchingDataCubit>(context)
-                                .dateFinanceList[index]
-                                .transactionDetails,
-                            subTitle: DateFormat.yMMMEd().format(
-                                BlocProvider.of<FetchingDataCubit>(context)
-                                    .dateFinanceList[index]
-                                    .date),
-                            color: BlocProvider.of<FetchingDataCubit>(context)
-                                        .dateFinanceList[index]
-                                        .balance >
-                                    0
-                                ? kSeconderyGreenColor
-                                : kSeconderyRedColor,
-                            trail: BlocProvider.of<FetchingDataCubit>(context)
-                                        .dateFinanceList[index]
-                                        .balance >
-                                    0
-                                ? "+ ${BlocProvider.of<FetchingDataCubit>(context).dateFinanceList[index].balance.toString()}"
-                                : BlocProvider.of<FetchingDataCubit>(context)
-                                    .dateFinanceList[index]
-                                    .balance
-                                    .toString(),
-                            onDismissed: (direction) {
-                              if (direction == DismissDirection.endToStart) {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: const Text(
-                                            "Are you sure you want to delete "),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text(
-                                              "Delete",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            onPressed: () {
-                                              BlocProvider.of<
-                                                          FetchingDataCubit>(
-                                                      context)
-                                                  .todayFinanceList[index]
-                                                  .delete();
-                                              BlocProvider.of<
-                                                          FetchingDataCubit>(
-                                                      context)
-                                                  .fetchingData();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text(
-                                              "Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                            onPressed: () {
-                                              BlocProvider.of<
-                                                          FetchingDataCubit>(
-                                                      context)
-                                                  .fetchingData();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AddingFinanceScreen(
-                                        isPlus:
-                                            BlocProvider.of<FetchingDataCubit>(
+                      child: BlocProvider.of<FetchingDataCubit>(context)
+                              .dateFinanceList
+                              .isEmpty
+                          ? const Center(
+                              child: Text(
+                                "No Data💔🙃🫠",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount:
+                                  BlocProvider.of<FetchingDataCubit>(context)
+                                      .dateFinanceList
+                                      .length,
+                              itemBuilder: (context, index) => ActivityWidget(
+                                  title:
+                                      BlocProvider.of<FetchingDataCubit>(context)
+                                          .dateFinanceList[index]
+                                          .transactionDetails,
+                                  subTitle: DateFormat.yMMMEd().format(
+                                      BlocProvider.of<FetchingDataCubit>(context)
+                                          .dateFinanceList[index]
+                                          .date),
+                                  color:
+                                      BlocProvider.of<FetchingDataCubit>(context)
+                                                  .dateFinanceList[index]
+                                                  .balance >
+                                              0
+                                          ? kSeconderyGreenColor
+                                          : kSeconderyRedColor,
+                                  trail: BlocProvider.of<FetchingDataCubit>(
+                                                  context)
+                                              .dateFinanceList[index]
+                                              .balance >
+                                          0
+                                      ? "+ ${BlocProvider.of<FetchingDataCubit>(context).dateFinanceList[index].balance.toString()}"
+                                      : BlocProvider.of<FetchingDataCubit>(context)
+                                          .dateFinanceList[index]
+                                          .balance
+                                          .toString(),
+                                  onDismissed: (direction) {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              content: const Text(
+                                                  "Are you sure you want to delete "),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text(
+                                                    "Delete",
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                  onPressed: () {
+                                                    BlocProvider.of<
+                                                                FetchingDataCubit>(
                                                             context)
                                                         .todayFinanceList[index]
-                                                        .balance >
-                                                    0
-                                                ? true
-                                                : false,
-                                        financeModel:
-                                            BlocProvider.of<FetchingDataCubit>(
-                                                    context)
-                                                .todayFinanceList[index],
-                                      ),
-                                    ));
-                              }
-                            }),
-                      ),
+                                                        .delete();
+                                                    BlocProvider.of<
+                                                                FetchingDataCubit>(
+                                                            context)
+                                                        .fetchingData();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  onPressed: () {
+                                                    BlocProvider.of<
+                                                                FetchingDataCubit>(
+                                                            context)
+                                                        .fetchingData();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddingFinanceScreen(
+                                              isPlus:
+                                                  BlocProvider.of<FetchingDataCubit>(
+                                                                  context)
+                                                              .todayFinanceList[
+                                                                  index]
+                                                              .balance >
+                                                          0
+                                                      ? true
+                                                      : false,
+                                              financeModel: BlocProvider.of<
+                                                          FetchingDataCubit>(
+                                                      context)
+                                                  .todayFinanceList[index],
+                                            ),
+                                          ));
+                                    }
+                                  }),
+                            ),
                     ),
                   ],
                 ),

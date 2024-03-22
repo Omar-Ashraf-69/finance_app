@@ -20,6 +20,7 @@ class AddingFinanceScreen extends StatefulWidget {
 
 class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
   String value = "";
+
   final TextEditingController controller = TextEditingController();
   final List<String> numbersGridItem = [
     '.',
@@ -52,6 +53,14 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
             appBar: AppBar(
               title: Text(
                 widget.isPlus ? "Plus" : 'Minus',
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  BlocProvider.of<FetchingDataCubit>(context)
+                      .fetchingDateData(DateTime.now());
+                  Navigator.pop(context);
+                },
               ),
             ),
             body: Padding(
@@ -107,9 +116,11 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                         Text(
                           value.isEmpty
                               ? widget.financeModel != null
-                                  ? widget.financeModel!.balance
-                                      .toString()
-                                      .substring(1)
+                                  ? widget.financeModel!.balance > 0
+                                      ? widget.financeModel!.balance.toString()
+                                      : widget.financeModel!.balance
+                                          .toString()
+                                          .substring(1)
                                   : '0.0'
                               : value.toString(),
                           style: TextStyle(

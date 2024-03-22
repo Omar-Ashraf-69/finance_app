@@ -59,10 +59,10 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
               DateFormat.yMMMEd().format(date))
           .toList();
       todayFinanceList = todayFinanceList.reversed.toList();
+      dateFinanceList = dateFinanceList.reversed.toList();
       emit(FetchingDataCubitSuccess());
     } catch (e) {
       emit(FetchingDataCubitError(error: e.toString()));
     }
   }
-
 }

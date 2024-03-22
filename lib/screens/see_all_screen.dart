@@ -83,7 +83,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : cubit.todayFinanceList.isEmpty
+                    : cubit.dateFinanceList.isEmpty
                         ? const Padding(
                             padding: EdgeInsets.only(top: 20.0),
                             child: Center(
@@ -98,7 +98,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                           )
                         : Expanded(
                             child: ListView.builder(
-                              itemCount: cubit.todayFinanceList.length,
+                              itemCount: cubit.dateFinanceList.length,
                               itemBuilder: (context, index) => ActivityWidget(
                                 title: cubit
                                     .todayFinanceList[index].transactionDetails,
@@ -158,7 +158,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             AddingFinanceScreen(
-                                          isPlus: cubit.todayFinanceList[index]
+                                          isPlus: cubit.dateFinanceList[index]
                                                       .balance >
                                                   0
                                               ? true
