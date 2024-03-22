@@ -11,9 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddingFinanceScreen extends StatefulWidget {
   const AddingFinanceScreen(
-      {super.key, required this.isPlus, this.financeModel});
+      {super.key, required this.isPlus, this.financeModel, this.selectedDate});
   final bool isPlus;
   final FinanceModel? financeModel;
+  final DateTime? selectedDate;
+
   @override
   State<AddingFinanceScreen> createState() => _AddingFinanceScreenState();
 }
@@ -57,8 +59,12 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  BlocProvider.of<FetchingDataCubit>(context)
-                      .fetchingDateData(DateTime.now());
+                  widget.selectedDate != DateTime.now() &&
+                          widget.selectedDate != null
+                      ? BlocProvider.of<FetchingDataCubit>(context)
+                          .fetchingDateData(widget.selectedDate!)
+                      : BlocProvider.of<FetchingDataCubit>(context)
+                          .fetchingDateData(DateTime.now());
                   Navigator.pop(context);
                 },
               ),
@@ -199,15 +205,17 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                                                 .transactionDetails =
                                             controller.text;
                                   }
-                                  BlocProvider.of<FetchingDataCubit>(context)
-                                      .fetchingData();
-                                  BlocProvider.of<FetchingDataCubit>(context)
-                                      .fetchingDateData(
-                                          BlocProvider.of<FetchingDataCubit>(
-                                                  context)
-                                              .selectedDate);
-                                  Navigator.pop(context);
+                                  widget.selectedDate != DateTime.now() &&
+                                          widget.selectedDate != null
+                                      ? BlocProvider.of<FetchingDataCubit>(
+                                              context)
+                                          .fetchingDateData(
+                                              widget.selectedDate!)
+                                      : BlocProvider.of<FetchingDataCubit>(
+                                              context)
+                                          .fetchingData();
                                 }
+                                Navigator.pop(context);
                               },
                             ),
                       const SizedBox(
@@ -217,7 +225,15 @@ class _AddingFinanceScreenState extends State<AddingFinanceScreen> {
                         label: 'Cancel',
                         textColor: kPrimaryRedColor,
                         backgroundColor: kSeconderyRedColor,
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          widget.selectedDate != DateTime.now() &&
+                                  widget.selectedDate != null
+                              ? BlocProvider.of<FetchingDataCubit>(context)
+                                  .fetchingDateData(widget.selectedDate!)
+                              : BlocProvider.of<FetchingDataCubit>(context)
+                                  .fetchingDateData(DateTime.now());
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
                   )

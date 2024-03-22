@@ -177,32 +177,32 @@ class _HomeScreenState extends State<HomeScreen> {
                           : ListView.builder(
                               itemCount:
                                   BlocProvider.of<FetchingDataCubit>(context)
-                                      .dateFinanceList
+                                      .todayFinanceList
                                       .length,
                               itemBuilder: (context, index) => ActivityWidget(
                                   title:
                                       BlocProvider.of<FetchingDataCubit>(context)
-                                          .dateFinanceList[index]
+                                          .todayFinanceList[index]
                                           .transactionDetails,
                                   subTitle: DateFormat.yMMMEd().format(
                                       BlocProvider.of<FetchingDataCubit>(context)
-                                          .dateFinanceList[index]
+                                          .todayFinanceList[index]
                                           .date),
                                   color:
                                       BlocProvider.of<FetchingDataCubit>(context)
-                                                  .dateFinanceList[index]
+                                                  .todayFinanceList[index]
                                                   .balance >
                                               0
                                           ? kSeconderyGreenColor
                                           : kSeconderyRedColor,
                                   trail: BlocProvider.of<FetchingDataCubit>(
                                                   context)
-                                              .dateFinanceList[index]
+                                              .todayFinanceList[index]
                                               .balance >
                                           0
-                                      ? "+ ${BlocProvider.of<FetchingDataCubit>(context).dateFinanceList[index].balance.toString()}"
+                                      ? "+ ${BlocProvider.of<FetchingDataCubit>(context).todayFinanceList[index].balance.toString()}"
                                       : BlocProvider.of<FetchingDataCubit>(context)
-                                          .dateFinanceList[index]
+                                          .todayFinanceList[index]
                                           .balance
                                           .toString(),
                                   onDismissed: (direction) {

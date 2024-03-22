@@ -41,6 +41,13 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                 fontSize: 24,
               ),
             ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                cubit.fetchingDateData(DateTime.now());
+                Navigator.pop(context);
+              },
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -101,19 +108,19 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                               itemCount: cubit.dateFinanceList.length,
                               itemBuilder: (context, index) => ActivityWidget(
                                 title: cubit
-                                    .todayFinanceList[index].transactionDetails,
+                                    .dateFinanceList[index].transactionDetails,
                                 subTitle: DateFormat.yMMMEd()
-                                    .format(cubit.todayFinanceList[index].date),
-                                color: cubit.todayFinanceList[index].balance > 0
+                                    .format(cubit.dateFinanceList[index].date),
+                                color: cubit.dateFinanceList[index].balance > 0
                                     ? kSeconderyGreenColor
                                     : kSeconderyRedColor,
                                 trail: BlocProvider.of<FetchingDataCubit>(
                                                 context)
-                                            .todayFinanceList[index]
+                                            .dateFinanceList[index]
                                             .balance >
                                         0
-                                    ? "+ ${cubit.todayFinanceList[index].balance.toString()}"
-                                    : cubit.todayFinanceList[index].balance
+                                    ? "+ ${cubit.dateFinanceList[index].balance.toString()}"
+                                    : cubit.dateFinanceList[index].balance
                                         .toString(),
                                 onDismissed: (direction) {
                                   if (direction ==
@@ -132,7 +139,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                                                       color: Colors.red),
                                                 ),
                                                 onPressed: () {
-                                                  cubit.todayFinanceList[index]
+                                                  cubit.dateFinanceList[index]
                                                       .delete();
                                                   cubit.fetchingData();
                                                   Navigator.of(context).pop();
@@ -164,7 +171,8 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
                                               ? true
                                               : false,
                                           financeModel:
-                                              cubit.todayFinanceList[index],
+                                              cubit.dateFinanceList[index],
+                                          selectedDate: _selectedDay,
                                         ),
                                       ),
                                     );

@@ -21,6 +21,7 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
 
     try {
       financeList = Hive.box<FinanceModel>(kFinanceBox).values.toList();
+      financeList = financeList.reversed.toList();
       todayFinanceList = Hive.box<FinanceModel>(kFinanceBox)
           .values
           .toList()
@@ -28,8 +29,8 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
               DateFormat.yMMMEd().format(element.date) ==
               DateFormat.yMMMEd().format(DateTime.now()))
           .toList();
-      financeList = financeList.reversed.toList();
       todayFinanceList = todayFinanceList.reversed.toList();
+
       fetchingDateData(selectedDate);
       totalBalance = 0;
       todayBalance = 0;
@@ -58,7 +59,6 @@ class FetchingDataCubit extends Cubit<FetchingDataState> {
               DateFormat.yMMMEd().format(element.date) ==
               DateFormat.yMMMEd().format(date))
           .toList();
-      todayFinanceList = todayFinanceList.reversed.toList();
       dateFinanceList = dateFinanceList.reversed.toList();
       emit(FetchingDataCubitSuccess());
     } catch (e) {
